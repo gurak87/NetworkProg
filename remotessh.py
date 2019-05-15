@@ -4,8 +4,8 @@ f = open('D:\Programming\infovlans.txt','w')
 Ciscodevice = {
 	'device_type':'cisco_ios',
 	'ip':'10.112.144.93',
-	'username':'81269985',
-	'password':'MPCsyst2021',
+	'username':'xxxxxxx',
+	'password':'xxxxxxx',
 }
 
 connection = ConnectHandler(**Ciscodevice)
