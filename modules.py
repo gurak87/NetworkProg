@@ -52,7 +52,7 @@ for device in file:
 
 #Check all interfaces and current status (up/down)
 	for each in range(len(result)):
-		if re.match(r'(Te|Eth)\d{1,3}\/\d{1,2}(\/\d)*',result[each]):
+		if re.match(r'(Te|Eth)(\d{1,3}\/\d{1,2}(\/\d)*[^.])',result[each]):
 			poinsw.append(result[each])
 		if result[each] == 'connected':
 			aux2.append('up')
