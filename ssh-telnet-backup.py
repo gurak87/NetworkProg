@@ -1,10 +1,11 @@
 from getpass import getpass
 from netmiko import ConnectHandler
 from netmiko import NetmikoTimeoutException
+from netmiko.ssh_exception import  AuthenticationException
 import telnetlib
 import datetime
 
-file = open('ipsprueba.txt')
+file = open('ipsfashions.txt')
 
 user = input("Enter your Username: ")
 password = getpass('Enter password: ')
@@ -30,7 +31,7 @@ for device in file:
         with open (hostname[:-1]+'_'+str(datetime.date.today())+'.txt','w') as backup:
             backup.write(net_connect.send_command("show run",expect_string=hostname,delay_factor = 3).replace('\\n','\n'))
         net_connect.disconnect()
-        print (hostname + ' - ' + device.replace('\n', '') + ' - respaldo OK - SSH')
+        print ('{:<30} {:<20} {:>15}'.format(hostname.replace('#',''), device.replace('\n', ''), 'respaldo OK - SSH'))
     except NetmikoTimeoutException:
         #SSH no habilitado en equipo, se intenta conectar por telnet
         tn = telnetlib.Telnet(device.replace('\n',''))
@@ -55,4 +56,10 @@ for device in file:
             backup.write(result.replace("\r\n", "\n"))
         tn.write(b" exit\n")
         tn.close()
-        print (hostname + ' - ' + device.replace('\n', '') + '- respaldo OK - Telnet')
+        print ('{:<30} {:<20} {:>15}'.format(hostname.replace('#',''), device.replace('\n', ''), 'respaldo OK - Telnet'))
+    except AuthenticationException:
+        print ('Bad Credentials - ' + device)
+
+
+
+file.close()        
